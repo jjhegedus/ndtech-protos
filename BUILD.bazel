@@ -1,4 +1,19 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
 load("@bazel_gazelle//:def.bzl", "gazelle")
 
 # gazelle:prefix github.com/jjhegedus/ndtech-proto
 gazelle(name = "gazelle")
+
+go_library(
+    name = "go_default_library",
+    srcs = ["main.go"],
+    importpath = "github.com/jjhegedus/ndtech-proto",
+    visibility = ["//visibility:private"],
+    deps = ["//entities:go_default_library"],
+)
+
+go_binary(
+    name = "ndtech-proto",
+    embed = [":go_default_library"],
+    visibility = ["//visibility:public"],
+)
